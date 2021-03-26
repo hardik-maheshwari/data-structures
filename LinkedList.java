@@ -14,7 +14,8 @@ public class LinkedList {
         System.out.println("1: Insert ");
         System.out.println("2: Delete");
         System.out.println("3: Print");
-        System.out.println("4: Exit");
+        System.out.println("4: Reverse");
+        System.out.println("5:exit");
         Scanner console = new Scanner(System.in);
         n = console.nextInt();
         return n;
@@ -38,13 +39,10 @@ public class LinkedList {
         newNode.data = num;
         if (first == null) {
             System.out.println("list is empty ");
-        } 
-            else if(first.next==null)
-            {
-                newNode.next=first;
-                first=newNode;
-            }
-        else {
+        } else if (first.next == null) {
+            newNode.next = first;
+            first = newNode;
+        } else {
             Node pLoc, pPrev;
             pLoc = first;
             pPrev = null;
@@ -166,6 +164,18 @@ public class LinkedList {
         }
     }
 
+    static void Reverse(Node p) {
+        if (p.next == null) {
+            first = p;
+            System.out.print(p.data + " | ");
+            return;
+        } else {
+            Reverse(p.next);
+
+        }
+        System.out.print(p.data + " | ");
+    }
+
     static int insertMenu() {
         int n;
         System.out.println("\nEnter your choice");
@@ -214,7 +224,7 @@ public class LinkedList {
 
     public static void main(String[] args) {
         System.out.println("Link list tutorial");
-        Node newNode;
+        // Node newNode;
         int choice;
         Scanner console = new Scanner(System.in);
         do {
@@ -230,10 +240,13 @@ public class LinkedList {
                 System.out.println("this will print the linked list");
                 printLinklist(first);
             } else if (choice == 4) {
-                System.out.println("thank you ");
+                System.out.println("reversing the list ");
+                Reverse(first);
+            } else if (choice == 5) {
+                System.out.println("thank you");
             }
 
-        } while (choice != 4);
+        } while (choice != 5);
 
     }
 
