@@ -1,6 +1,8 @@
+package Queue;
+
 import java.util.*;
 
-public class QueueUsingStaticArrays {
+public class CircularQueueUsingStaticArrays {
     static int menu() {
         int n;
         System.out.println("\nEnter your choice");
@@ -21,50 +23,67 @@ public class QueueUsingStaticArrays {
     static int front = -1, rear = -1, size;
 
     static public void enQueue() {
-        if (rear == 4)
+        if ((rear + 1) % 5 == front)
             System.out.println(" Queue Full");
         else {
             System.out.println(" This adds data to queue ");
             Scanner console = new Scanner(System.in);
             System.out.print(" Enter num ");
             int num = console.nextInt();
-            rear = (rear + 1);
+            if (front == -1 && rear == -1) {
+                front = rear = 0;
+                queue[rear] = num;
+                size++;
+            } else {
+                rear = (rear + 1) % 5;
+                queue[rear] = num;
 
-            queue[rear] = num;
+                size++;
+            }
 
-            size++;
-            if (size == 1)
-                front++;
-            System.out.println("debug: This is the value of rear after insertion " + rear);
+            // System.out.println("debug: This is the value of rear after insertion " +
+            // rear);
+            // System.out.println("debug: This is the value of queuerear after insertion " +
+            // queue[rear]);
+
         }
 
     }
 
     static public int deQueue() {
-        if (size == 0) {
+        if (front == -1 && rear == -1) {
             System.out.println("Empty Queue");
             return 0;
-        } else if (size == 1) {
-            System.out.println("Exactly one element was present in the queue");
+        } else if (front == rear) {
+            System.out.println(" Exactly one element was present in the queue");
             size--;
-            front = 0;
-            return queue[0];
+            int temp = front;
+            front = rear = 0;
+            return queue[temp];
 
         } else {
-            front = (front + 1);
             int data = queue[front];
             size--;
-
+            front = ((front + 1) % 5);
             return data;
         }
     }
 
     static public void show() {
-        if (front == -1 && rear == -1)
+        if (size == 0)
             System.out.println("empty Queue");
         else {
-            for (int i = 0; i < size; i++)
-                System.out.print(queue[(front + i)] + " | ");
+            int i = front;
+            while (i != rear) {
+                System.out.print(queue[i] + " | ");
+                i=(i+1)%5;
+            }
+            System.out.print(queue[rear]);
+            // do
+            // {
+            //     System.out.print(queue[i] + " | ");
+            //     i=(i+1)%5;
+            // }while(i!=rear);
         }
 
     }
@@ -78,10 +97,7 @@ public class QueueUsingStaticArrays {
             if (choice == 1) {
                 enQueue();
             } else if (choice == 2) {
-                if (size == 0)
-                    System.out.println(" Empty Queue");
-                else
-                    System.out.println(" this is the value removed from Queue :" + deQueue());
+                System.out.println(" this is the value removed from Queue :" + deQueue());
 
             } else if (choice == 3) {
                 System.out.println("this will print the Queue");
@@ -89,14 +105,12 @@ public class QueueUsingStaticArrays {
 
             } else if (choice == 4) {
                 if (size == 0)
-                    System.out.println("Empty Queue");
+                    System.out.println(" Empty Queue");
                 else
                     System.out.println("The first element of Queue is " + queue[front]);
             } else if (choice == 5) {
                 if (size == 0)
-                    System.out.println("Empty Queue");
-               // else if (rear == 0)
-                   // System.out.println("The last element of Queue is" + queue[rear]);
+                    System.out.println(" Empty Queue");
                 else
                     System.out.println("The last element of Queue is " + queue[rear]);
 
