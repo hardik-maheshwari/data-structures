@@ -7,6 +7,7 @@ class Node {
 
 public class LinkedList {
     static Node first, last, newNode;
+    static int count;
 
     static int menu() {
         int n;
@@ -42,6 +43,11 @@ public class LinkedList {
         } else if (first.next == null) {
             newNode.next = first;
             first = newNode;
+            count++;
+        } else if (first.data == beforeNum) {
+            newNode.next = first;
+            first = newNode;
+            count++;
         } else {
             Node pLoc, pPrev;
             pLoc = first;
@@ -55,6 +61,7 @@ public class LinkedList {
             } else {
                 newNode.next = pLoc;
                 pPrev.next = newNode;
+                count++;
             }
         }
 
@@ -78,6 +85,7 @@ public class LinkedList {
             } else {
                 newNode.next = pLoc.next;
                 pLoc.next = newNode;
+                count++;
             }
         }
 
@@ -92,13 +100,15 @@ public class LinkedList {
         if (first == null) {
             first = newNode;
             last = newNode;
+            count++;
         } else {
-            last = first;
-            while (last.next != null) {
-                last = last.next;
-            }
+            // last = first;
+            // while (last.next != null) {
+            // last = last.next;
+            // }
             last.next = newNode;
             last = newNode;
+            count++;
         }
 
     }
@@ -111,9 +121,11 @@ public class LinkedList {
         if (first == null) {
             first = newNode;
             last = newNode;
+            count++;
         } else {
             newNode.next = first;
             first = newNode;
+            count++;
         }
 
     }
@@ -130,9 +142,10 @@ public class LinkedList {
             // count = getCount();
             if (first.next == null) {
                 System.out.println(" Last element of list ");
-                if (first.data == num)
+                if (first.data == num) {
                     first = null;
-                else
+                    count--;
+                } else
                     System.out.println("number not found");
             } else {
                 while (pDelete.data != num && pDelete.next != null) {
@@ -143,10 +156,13 @@ public class LinkedList {
                     System.out.println("number not found in list");
                 } else if (pDelete.next == null) {
                     pPrev.next = null;
+                    count--;
                 } else if (first == pDelete) {
                     first = pDelete.next;
+                    count--;
                 } else {
                     pPrev.next = pDelete.next;
+                    count--;
                 }
             }
         }
@@ -176,6 +192,49 @@ public class LinkedList {
         System.out.print(p.data + " | ");
     }
 
+    static void insertAtPosition(int num) {
+        Node newNode;
+        newNode = new Node();
+        System.out.println("Enter data");
+        Scanner console = new Scanner(System.in);
+        int num1 = console.nextInt();
+        newNode.data = num1;
+        if(count==0)
+        {
+            System.out.println("Empty list");
+        }
+       else if (num > count) {
+            System.out.println(" Out of scope");
+        } else if (num == 1) {
+
+            if (first == null) {
+                first = newNode;
+                last = newNode;
+                count++;
+            } else {
+                newNode.next = first;
+                first = newNode;
+                count++;
+            }
+        } else {
+            int count1 = 0;
+            Node pLoc, pPrev;
+            pLoc = first;
+            pPrev = null;
+            while (pLoc.next != null) {
+                pPrev = pLoc;
+                pLoc = pLoc.next;
+                count1++;
+                if (num == count1)
+                    break;
+            }
+            pPrev.next = newNode;
+            newNode.next = pLoc;
+            count++;
+        }
+
+    }
+
     static int insertMenu() {
         int n;
         System.out.println("\nEnter your choice");
@@ -183,6 +242,7 @@ public class LinkedList {
         System.out.println("2: Insert at end");
         System.out.println("3: Insert after specific number");
         System.out.println("4: Insert before specific number");
+        System.out.println("5: Insert at nth posiion");
         System.out.print("please enter your choice  ");
         Scanner console = new Scanner(System.in);
         n = console.nextInt();
@@ -218,6 +278,12 @@ public class LinkedList {
             System.out.println("enter number before which number is to be entered");
             int numBefore = console.nextInt();
             insertBefore(num, numBefore);
+        }
+        if (insertChoice == 5) {
+            System.out.println("enter node at which number is to be inserted");
+            int num = console.nextInt();
+            int a=num-1;
+            insertAtPosition(num);
         }
         return insertChoice;
     }
