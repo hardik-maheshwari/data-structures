@@ -16,7 +16,8 @@ public class LinkedList {
         System.out.println("2: Delete");
         System.out.println("3: Print");
         System.out.println("4: Reverse");
-        System.out.println("5:exit");
+        System.out.println("5 : Delete at n");
+        System.out.println("6:exit");
         Scanner console = new Scanner(System.in);
         n = console.nextInt();
         return n;
@@ -74,12 +75,17 @@ public class LinkedList {
         newNode.data = num;
         if (first == null) {
             System.out.println("list is empty ");
+        } else if (last.data == afterNum) {
+            last.next = newNode;
+            last = newNode;
+            count++;
         } else {
             Node pLoc;
             pLoc = first;
             while (pLoc.data != afterNum && pLoc.next != null) {
                 pLoc = pLoc.next;
             }
+            // System.out.println("debug "+pLoc.data);
             if (pLoc.data != afterNum) {
                 System.out.println("number not found in list");
             } else {
@@ -235,6 +241,45 @@ public class LinkedList {
 
     }
 
+    static void deleteAtn(int num) {
+        int del;
+        if (count == 0)
+            System.out.println(" Empty link list");
+        else if (num > count)
+            System.out.println("Out of scope");
+        else if (num == 1 && count==1) {
+            System.out.println(" Last element of list ");
+                first = null;
+            count--;
+        } 
+        else if(num==count)
+        {
+            Node pPrev;
+            pPrev=first;
+            while(pPrev.next!=last)
+            {
+                pPrev=pPrev.next;
+            }
+            pPrev.next=null;
+            count--;
+        }
+        else {
+            int count1 = 0;
+            Node pTraverse, pPrev;
+            pTraverse = first;
+            pPrev = null;
+            while (pTraverse.next != null) {
+                pPrev = pTraverse;
+                pTraverse = pTraverse.next;
+                count1++;
+                if (num == count1)
+                    break;
+            }
+            del = pPrev.data;
+            delete(del);
+        }
+    }
+
     static int insertMenu() {
         int n;
         System.out.println("\nEnter your choice");
@@ -282,7 +327,6 @@ public class LinkedList {
         if (insertChoice == 5) {
             System.out.println("enter node at which number is to be inserted");
             int num = console.nextInt();
-            int a=num-1;
             insertAtPosition(num);
         }
         return insertChoice;
@@ -309,10 +353,15 @@ public class LinkedList {
                 System.out.println("reversing the list ");
                 Reverse(first);
             } else if (choice == 5) {
+                System.out.println("Enter node to be deleted");
+                int number;
+                number = console.nextInt();
+                deleteAtn(number);
+            } else if (choice == 6) {
                 System.out.println("thank you");
             }
 
-        } while (choice != 5);
+        } while (choice != 6);
 
     }
 
